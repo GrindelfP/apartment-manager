@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface UserDao<T> {
 
-    T getUser(@NotNull String userName) throws NoSuchUserException;
+    T getUserByName(@NotNull String userName) throws NoSuchUserException;
     List<T> getAll();
     void save(@NotNull T user) throws UserAlreadyExistsException;
     void update(@NotNull T user) throws NoSuchUserException;

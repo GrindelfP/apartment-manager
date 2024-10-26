@@ -19,5 +19,11 @@ public class SignupController {
 
     @FXML
     public void handleSignup(ActionEvent actionEvent) {
+        // TODO: implement handleSignup
+    }
+
+    @FXML
+    public void switchToLogin(ActionEvent actionEvent) {
+        // TODO: implement switchToLogin
     }
 }

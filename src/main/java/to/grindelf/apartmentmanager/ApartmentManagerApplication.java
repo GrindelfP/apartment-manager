@@ -23,7 +23,7 @@ import static to.grindelf.apartmentmanager.application.ApartmentManagerSpring.st
 
 public class ApartmentManagerApplication {
 
-    private static final ExecutionMode mode = ExecutionMode.WEB;
+    private static final ExecutionMode mode = ExecutionMode.DESKTOP;
 
     public static void main(String[] args) throws IllegalExecutionModeException {
 

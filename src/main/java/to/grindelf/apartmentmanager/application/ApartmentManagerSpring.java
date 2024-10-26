@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration(proxyBeanMethods = false)
 public class ApartmentManagerSpring {
 
+    public ApartmentManagerSpring() {}
+
     // TODO: implement the constructor
     // TODO: find out how to implement the spring app basis and how to run it
 

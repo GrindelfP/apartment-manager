@@ -7,10 +7,14 @@ module to.grindelf.apartmentmanager {
     requires spring.web;
     requires org.jetbrains.annotations;
     requires spring.context;
+    requires spring.core;
+    requires spring.beans;
 
     requires javafx.graphics;
 
     exports to.grindelf.apartmentmanager to javafx.graphics;
+
+    exports to.grindelf.apartmentmanager.application to javafx.graphics, spring.core;
 
     exports to.grindelf.apartmentmanager.exceptions to javafx.base, spring.core;
 
@@ -24,7 +28,6 @@ module to.grindelf.apartmentmanager {
 
     opens to.grindelf.apartmentmanager.domain to javafx.fxml;
     exports to.grindelf.apartmentmanager.domain;
-    exports to.grindelf.apartmentmanager.application to javafx.graphics;
     opens to.grindelf.apartmentmanager.application to spring.beans, spring.context, spring.core;
 
 }

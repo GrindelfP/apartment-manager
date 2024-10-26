@@ -4,24 +4,25 @@ import org.jetbrains.annotations.NotNull;
 import to.grindelf.apartmentmanager.domain.User;
 import to.grindelf.apartmentmanager.exceptions.NoSuchUserException;
 import to.grindelf.apartmentmanager.exceptions.UserAlreadyExistsException;
-import to.grindelf.apartmentmanager.utils.JsonOperator;
+import to.grindelf.apartmentmanager.utils.DataOperator;
 
 import java.util.List;
 import java.util.Objects;
 
-public class UserDaoJson implements UserDao<User> {
+public class UserDaoImpl implements UserDao<User> {
 
-    private final List<User> userList;
     private final String USER_FILE_PATH = "resources/users.json";
-    private final JsonOperator<List<User>> operator;
+    private final DataOperator<List<User>> operator;
 
-    public UserDaoJson() {
-        this.operator = new JsonOperator<>(USER_FILE_PATH);
-        this.userList = this.operator.readFile();
+    public UserDaoImpl(DataOperator<List<User>> operator) {
+        this.operator = operator;
     }
 
     @Override
-    public User getUser(@NotNull String userName) throws NoSuchUserException {
+    public User getUserByName(@NotNull String userName) throws NoSuchUserException {
+
+        List<User> userList = this.operator.readFile(USER_FILE_PATH);
+
         User resultUser = null;
         for (User user : userList) {
             if (Objects.equals(user.getName(), userName)) {
@@ -29,28 +30,38 @@ public class UserDaoJson implements UserDao<User> {
                 break;
             }
         }
-        if (!checkIfUserExists(userName)) {
+        if (!checkIfUserExists(userName, userList)) {
             throw new NoSuchUserException();
-        } else return resultUser;
+        } else
+            return resultUser;
+
     }
 
     @Override
     public List<User> getAll() {
-        return userList;
+        return this.operator.readFile(USER_FILE_PATH);
     }
 
     @Override
     public void save(@NotNull User user) throws UserAlreadyExistsException {
-        if (checkIfUserExists(user.getName())) {
+
+        List<User> userList = this.operator.readFile(USER_FILE_PATH);
+
+        if (checkIfUserExists(user.getName(), userList)) {
             throw new UserAlreadyExistsException();
         } else {
             userList.add(user);
         }
+
+        this.operator.writeToFile(USER_FILE_PATH, userList);
     }
 
     @Override
     public void update(@NotNull User user) throws NoSuchUserException {
-        if (!checkIfUserExists(user.getName())) {
+
+        List<User> userList = this.operator.readFile(USER_FILE_PATH);
+
+        if (!checkIfUserExists(user.getName(), userList)) {
             throw new NoSuchUserException();
         } else {
             for (int i = 0; i < userList.size(); i++) {
@@ -60,11 +71,16 @@ public class UserDaoJson implements UserDao<User> {
                 }
             }
         }
+
+        this.operator.writeToFile(USER_FILE_PATH, userList);
     }
 
     @Override
     public void delete(@NotNull String userName) throws NoSuchUserException {
-        if (!checkIfUserExists(userName)) {
+
+        List<User> userList = this.operator.readFile(USER_FILE_PATH);
+
+        if (!checkIfUserExists(userName, userList)) {
             throw new NoSuchUserException();
         } else {
             for (int i = 0; i < userList.size(); i++) {
@@ -74,9 +90,11 @@ public class UserDaoJson implements UserDao<User> {
                 }
             }
         }
+
+        this.operator.writeToFile(USER_FILE_PATH, userList);
     }
 
-    private boolean checkIfUserExists(String userName) {
+    private boolean checkIfUserExists(@NotNull String userName, @NotNull List<User> userList) {
         boolean exists = false;
         for (User currentUser : userList) {
             if (Objects.equals(userName, currentUser.getName())) {
