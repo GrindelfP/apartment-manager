@@ -25,6 +25,14 @@ public final class User {
 
     public User(String name) {
         this.name = name;
+        this.password = null;
+        this.status = Status.JUST_USER;
+    }
+
+    public User() {
+        this.name = null;
+        this.password = null;
+        this.status = Status.JUST_USER;
     }
 
     public String getName() {
@@ -37,6 +45,10 @@ public final class User {
 
     public String getPassword() {
         return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Status getStatus() {
@@ -52,8 +64,11 @@ public final class User {
     @Override
     public String toString() {
         return "User{" +
-                "name='" + name + '\'' +
-                '}';
+                "name='" + name + '\'' + ", " +
+                "password='" + password + '\'' + ", " +
+                "status='" + status + '\'' +
+                '}'
+                ;
     }
 
     @Override

@@ -11,6 +11,7 @@ module to.grindelf.apartmentmanager {
     requires spring.beans;
 
     requires javafx.graphics;
+    requires com.fasterxml.jackson.databind;
 
     exports to.grindelf.apartmentmanager to javafx.graphics;
 
@@ -26,7 +27,7 @@ module to.grindelf.apartmentmanager {
     opens to.grindelf.apartmentmanager.utils to javafx.fxml;
     exports to.grindelf.apartmentmanager.utils;
 
-    opens to.grindelf.apartmentmanager.domain to javafx.fxml;
+    opens to.grindelf.apartmentmanager.domain to javafx.fxml, com.fasterxml.jackson.databind;
     exports to.grindelf.apartmentmanager.domain;
     opens to.grindelf.apartmentmanager.application to spring.beans, spring.context, spring.core;
 
