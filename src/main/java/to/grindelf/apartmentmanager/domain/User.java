@@ -9,10 +9,18 @@ public final class User {
 
     private String name;
     private String password;
+    private Status status;
 
-    public User(String name, String password) {
+    public User(@NotNull String name, @NotNull String password) {
         this.name = name;
         this.password = password;
+        this.status = Status.JUST_USER;
+    }
+
+    public User(@NotNull String name, @NotNull String password, @NotNull Status status) {
+        this.name = name;
+        this.password = password;
+        this.status = status;
     }
 
     public User(String name) {
@@ -31,8 +39,12 @@ public final class User {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     @NotNull
