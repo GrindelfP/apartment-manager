@@ -3,7 +3,7 @@ package to.grindelf.apartmentmanager.utils;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import to.grindelf.apartmentmanager.domain.Status;
+import to.grindelf.apartmentmanager.domain.UserStatus;
 import to.grindelf.apartmentmanager.domain.User;
 
 import java.io.IOException;
@@ -21,7 +21,7 @@ class JsonOperatorTest {
             new User(
                     "jon_doe",
                     "123",
-                    Status.ADMIN
+                    UserStatus.ADMIN
             ),
             new User(
                     "jane_doe"
@@ -34,7 +34,7 @@ class JsonOperatorTest {
     private final User testUser = new User(
             "jon_doe",
             "123",
-            Status.ADMIN
+            UserStatus.ADMIN
     );
     private final String testUsersAsText = "[" +
             "{\"name\":\"jon_doe\",\"password\":\"123\",\"status\":\"ADMIN\"}," +

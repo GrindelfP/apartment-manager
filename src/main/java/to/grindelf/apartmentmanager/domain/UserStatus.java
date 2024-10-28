@@ -1,6 +1,6 @@
 package to.grindelf.apartmentmanager.domain;
 
-public enum Status {
+public enum UserStatus {
     ADMIN,
     JUST_USER
 }

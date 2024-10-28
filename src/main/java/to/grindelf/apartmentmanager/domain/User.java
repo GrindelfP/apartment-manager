@@ -9,30 +9,30 @@ public final class User {
 
     private String name;
     private String password;
-    private Status status;
+    private UserStatus userStatus;
 
     public User(@NotNull String name, @NotNull String password) {
         this.name = name;
         this.password = password;
-        this.status = Status.JUST_USER;
+        this.userStatus = UserStatus.JUST_USER;
     }
 
-    public User(@NotNull String name, @NotNull String password, @NotNull Status status) {
+    public User(@NotNull String name, @NotNull String password, @NotNull UserStatus userStatus) {
         this.name = name;
         this.password = password;
-        this.status = status;
+        this.userStatus = userStatus;
     }
 
     public User(String name) {
         this.name = name;
         this.password = null;
-        this.status = Status.JUST_USER;
+        this.userStatus = UserStatus.JUST_USER;
     }
 
     public User() {
         this.name = null;
         this.password = null;
-        this.status = Status.JUST_USER;
+        this.userStatus = UserStatus.JUST_USER;
     }
 
     public String getName() {
@@ -51,12 +51,12 @@ public final class User {
         this.password = password;
     }
 
-    public Status getStatus() {
-        return status;
+    public UserStatus getStatus() {
+        return userStatus;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setStatus(UserStatus userStatus) {
+        this.userStatus = userStatus;
     }
 
     @NotNull
@@ -66,7 +66,7 @@ public final class User {
         return "User{" +
                 "name='" + name + '\'' + ", " +
                 "password='" + password + '\'' + ", " +
-                "status='" + status + '\'' +
+                "userStatus='" + userStatus + '\'' +
                 '}'
                 ;
     }
