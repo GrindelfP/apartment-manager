@@ -1,6 +1,8 @@
 package to.grindelf.apartmentmanager.utils;
 
 import org.jetbrains.annotations.NotNull;
+import to.grindelf.apartmentmanager.annonations.JSONPurposed;
+import to.grindelf.apartmentmanager.annonations.SQLPurposed;
 
 public interface DataOperator<T> {
 
@@ -10,7 +12,23 @@ public interface DataOperator<T> {
      * @param filePath path to destination file
      * @return returns the content of a file.
      */
+    @JSONPurposed
     T readFile(@NotNull String filePath);
+
+    @SQLPurposed
+    T get(@NotNull T t, @NotNull String filePath);
+
+    @SQLPurposed
+    T getAll(@NotNull String filePath);
+
+    @SQLPurposed
+    T post(@NotNull T t, @NotNull String filePath);
+
+    @SQLPurposed
+    T update(@NotNull T t, @NotNull String filePath);
+
+    @SQLPurposed
+    T delete(@NotNull T t, @NotNull String filePath);
 
     /**
      * Overwrites content of the provided file with new content
@@ -19,5 +37,6 @@ public interface DataOperator<T> {
      * @param data     what to write in destination file
      * @return returns true if process succeeded false otherwise
      */
+    @JSONPurposed
     boolean writeToFile(@NotNull String filePath, T data);
 }

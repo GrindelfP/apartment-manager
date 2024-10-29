@@ -9,30 +9,37 @@ public final class User {
 
     private String name;
     private String password;
-    private UserStatus userStatus;
+    private UserStatus status;
 
     public User(@NotNull String name, @NotNull String password) {
         this.name = name;
         this.password = password;
-        this.userStatus = UserStatus.JUST_USER;
+        this.status = UserStatus.JUST_USER;
     }
 
-    public User(@NotNull String name, @NotNull String password, @NotNull UserStatus userStatus) {
+    public User(@NotNull String name, @NotNull String password, @NotNull UserStatus status) {
         this.name = name;
         this.password = password;
-        this.userStatus = userStatus;
+        this.status = status;
     }
 
     public User(String name) {
         this.name = name;
-        this.password = null;
-        this.userStatus = UserStatus.JUST_USER;
+        this.password = "no passwd";
+        this.status = UserStatus.JUST_USER;
     }
 
     public User() {
-        this.name = null;
-        this.password = null;
-        this.userStatus = UserStatus.JUST_USER;
+        this.name = "no name";
+        this.password = "no passwd";
+        this.status = UserStatus.JUST_USER;
+    }
+
+    public User(String name, String password, String status) {
+        this.name = name;
+        this.password = password;
+        if (Objects.equals(status, UserStatus.JUST_USER.toString())) this.status = UserStatus.JUST_USER;
+        else this.status = UserStatus.ADMIN;
     }
 
     public String getName() {
@@ -52,11 +59,11 @@ public final class User {
     }
 
     public UserStatus getStatus() {
-        return userStatus;
+        return status;
     }
 
     public void setStatus(UserStatus userStatus) {
-        this.userStatus = userStatus;
+        this.status = userStatus;
     }
 
     @NotNull
@@ -66,7 +73,7 @@ public final class User {
         return "User{" +
                 "name='" + name + '\'' + ", " +
                 "password='" + password + '\'' + ", " +
-                "userStatus='" + userStatus + '\'' +
+                "userStatus='" + status + '\'' +
                 '}'
                 ;
     }

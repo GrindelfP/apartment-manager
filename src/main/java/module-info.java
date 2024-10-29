@@ -12,6 +12,7 @@ module to.grindelf.apartmentmanager {
 
     requires javafx.graphics;
     requires com.fasterxml.jackson.databind;
+    requires java.sql;
 
     exports to.grindelf.apartmentmanager to javafx.graphics;
 
