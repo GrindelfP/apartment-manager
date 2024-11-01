@@ -8,6 +8,7 @@ import to.grindelf.apartmentmanager.annonations.SQLPurposed;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 public class JsonOperator<T> implements DataOperator<T> {
 
@@ -52,7 +53,7 @@ public class JsonOperator<T> implements DataOperator<T> {
      */
     @Override
     @SQLPurposed
-    public T getAll(@NotNull String filePath) {
+    public @NotNull List<T> getAll(@NotNull String filePath) {
         return null;
     }
 

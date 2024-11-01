@@ -4,6 +4,8 @@ import org.jetbrains.annotations.NotNull;
 import to.grindelf.apartmentmanager.annonations.JSONPurposed;
 import to.grindelf.apartmentmanager.annonations.SQLPurposed;
 
+import java.util.List;
+
 public interface DataOperator<T> {
 
     /**
@@ -19,7 +21,8 @@ public interface DataOperator<T> {
     T get(@NotNull T t, @NotNull String filePath);
 
     @SQLPurposed
-    T getAll(@NotNull String filePath);
+    @NotNull
+    List<T> getAll(@NotNull String filePath);
 
     @SQLPurposed
     T post(@NotNull T t, @NotNull String filePath);
