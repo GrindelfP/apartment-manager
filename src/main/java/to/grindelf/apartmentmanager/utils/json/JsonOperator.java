@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jetbrains.annotations.NotNull;
 import to.grindelf.apartmentmanager.annonations.JSONPurposed;
-import to.grindelf.apartmentmanager.annonations.SQLPurposed;
+import to.grindelf.apartmentmanager.exceptions.IrregularAccessException;
 import to.grindelf.apartmentmanager.exceptions.JSONException;
 import to.grindelf.apartmentmanager.utils.DataOperator;
 import to.grindelf.apartmentmanager.utils.database.DatabaseTableNames;
@@ -22,6 +22,7 @@ public class JsonOperator<T, K> implements DataOperator<T, K> {
 
     /**
      * Constructor that initializes the type reference.
+     *
      * @param typeReference type reference to initialize with
      */
     public JsonOperator(TypeReference<T> typeReference) {
@@ -36,7 +37,7 @@ public class JsonOperator<T, K> implements DataOperator<T, K> {
      * @throws JSONException if an error occurs during the operation
      */
     @Override
-    public T readFile(@NotNull String filePath) throws JSONException {
+    public T readFile(@NotNull String filePath) throws JSONException, IrregularAccessException {
         try {
             return objectMapper.readValue(new File(filePath), typeReference);
         } catch (IOException e) {
@@ -53,7 +54,7 @@ public class JsonOperator<T, K> implements DataOperator<T, K> {
      */
     @Override
     @JSONPurposed
-    public void writeToFile(@NotNull String filePath, @NotNull T data) {
+    public void writeToFile(@NotNull String filePath, @NotNull T data) throws JSONException, IrregularAccessException {
         try {
             objectMapper.writeValue(new File(filePath), data);
         } catch (IOException e) {
@@ -80,8 +81,8 @@ public class JsonOperator<T, K> implements DataOperator<T, K> {
             @NotNull K key,
             @NotNull String filePath,
             @NotNull DatabaseTableNames tableName
-    ) throws SQLException {
-        return null;
+    ) throws SQLException, IrregularAccessException {
+        throw new IrregularAccessException(this.getClass().getName());
     }
 
     /**
@@ -97,7 +98,9 @@ public class JsonOperator<T, K> implements DataOperator<T, K> {
             @NotNull String filePath,
             @NotNull RowMapper<T> mapper,
             @NotNull String tableName
-    ) throws SQLException { return List.of(); }
+    ) throws SQLException, IrregularAccessException {
+        throw new IrregularAccessException(this.getClass().getName());
+    }
 
     /**
      * Validates and, if valid, inserts data into the database file.
@@ -111,7 +114,9 @@ public class JsonOperator<T, K> implements DataOperator<T, K> {
             @NotNull T data,
             @NotNull String filePath,
             @NotNull DatabaseTableNames tableName
-    ) throws SQLException {}
+    ) throws SQLException, IrregularAccessException {
+        throw new IrregularAccessException(this.getClass().getName());
+    }
 
     /**
      * Updates the data in the database file.
@@ -126,7 +131,9 @@ public class JsonOperator<T, K> implements DataOperator<T, K> {
             @NotNull K key,
             @NotNull String filePath,
             @NotNull DatabaseTableNames tableName
-    ) throws SQLException { }
+    ) throws SQLException, IrregularAccessException {
+        throw new IrregularAccessException(this.getClass().getName());
+    }
 
     /**
      * Deletes the data from the database file.
@@ -141,5 +148,7 @@ public class JsonOperator<T, K> implements DataOperator<T, K> {
             @NotNull K key,
             @NotNull String filePath,
             @NotNull DatabaseTableNames tableName
-    ) throws SQLException { }
+    ) throws SQLException, IrregularAccessException {
+        throw new IrregularAccessException(this.getClass().getName());
+    }
 }

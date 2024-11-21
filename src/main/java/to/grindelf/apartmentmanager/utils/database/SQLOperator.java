@@ -1,8 +1,8 @@
 package to.grindelf.apartmentmanager.utils.database;
 
 import org.jetbrains.annotations.NotNull;
-import to.grindelf.apartmentmanager.annonations.JSONPurposed;
 import to.grindelf.apartmentmanager.annonations.SQLPurposed;
+import to.grindelf.apartmentmanager.exceptions.IrregularAccessException;
 import to.grindelf.apartmentmanager.exceptions.JSONException;
 import to.grindelf.apartmentmanager.utils.DataOperator;
 
@@ -38,7 +38,7 @@ public class SQLOperator<T, K> implements DataOperator<T, K> {
             @NotNull K key,
             @NotNull String filePath,
             @NotNull DatabaseTableNames tableName
-    ) {
+    ) throws SQLException, IrregularAccessException {
         return null;
     }
 
@@ -56,7 +56,7 @@ public class SQLOperator<T, K> implements DataOperator<T, K> {
             @NotNull String filePath,
             @NotNull RowMapper<T> mapper,
             @NotNull String tableName
-    ) throws SQLException {
+    ) throws SQLException, IrregularAccessException {
 
         List<T> result = new ArrayList<>();
         String url = "jdbc:sqlite:" + filePath;
@@ -88,7 +88,7 @@ public class SQLOperator<T, K> implements DataOperator<T, K> {
             @NotNull T data,
             @NotNull String filePath,
             @NotNull DatabaseTableNames tableName
-    ) throws SQLException {
+    ) throws SQLException, IrregularAccessException {
         String url = "jdbc:sqlite:" + filePath;
 
         try (Connection conn = DriverManager.getConnection(url)) {
@@ -110,7 +110,7 @@ public class SQLOperator<T, K> implements DataOperator<T, K> {
             @NotNull K key,
             @NotNull String filePath,
             @NotNull DatabaseTableNames tableName
-    ) throws SQLException { }
+    ) throws SQLException, IrregularAccessException { }
 
     /**
      * Deletes the data from the database file.
@@ -125,7 +125,7 @@ public class SQLOperator<T, K> implements DataOperator<T, K> {
             @NotNull K key,
             @NotNull String filePath,
             @NotNull DatabaseTableNames tableName
-    ) throws SQLException { }
+    ) throws SQLException, IrregularAccessException { }
 
     // =================================================================== \\
     //                 LOW-LEVEL SQL OPERATIONS WITH DATA                  \\
@@ -230,7 +230,9 @@ public class SQLOperator<T, K> implements DataOperator<T, K> {
      * @throws JSONException if an error occurs during the operation
      */
     @Override
-    public T readFile(@NotNull String filePath) throws JSONException { return null;}
+    public T readFile(@NotNull String filePath) throws JSONException, IrregularAccessException {
+        throw new IrregularAccessException(this.getClass().getName());
+    }
 
     /**
      * Overwrites content of the provided file with new content
@@ -240,5 +242,7 @@ public class SQLOperator<T, K> implements DataOperator<T, K> {
      * @throws JSONException if an error occurs during the operation
      */
     @Override
-    public void writeToFile(@NotNull String filePath, @NotNull T data) throws JSONException { }
+    public void writeToFile(@NotNull String filePath, @NotNull T data) throws JSONException, IrregularAccessException {
+        throw new IrregularAccessException(this.getClass().getName());
+    }
 }

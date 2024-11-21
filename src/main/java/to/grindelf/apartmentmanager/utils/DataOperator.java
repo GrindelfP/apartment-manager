@@ -3,6 +3,7 @@ package to.grindelf.apartmentmanager.utils;
 import org.jetbrains.annotations.NotNull;
 import to.grindelf.apartmentmanager.annonations.JSONPurposed;
 import to.grindelf.apartmentmanager.annonations.SQLPurposed;
+import to.grindelf.apartmentmanager.exceptions.IrregularAccessException;
 import to.grindelf.apartmentmanager.exceptions.JSONException;
 import to.grindelf.apartmentmanager.utils.database.DatabaseTableNames;
 import to.grindelf.apartmentmanager.utils.database.RowMapper;
@@ -30,7 +31,7 @@ public interface DataOperator<T, K> {
      * @throws JSONException if an error occurs during the operation
      */
     @JSONPurposed
-    T readFile(@NotNull String filePath) throws JSONException;
+    T readFile(@NotNull String filePath) throws JSONException, IrregularAccessException;
 
     /**
      * Overwrites content of the provided file with new content
@@ -43,7 +44,7 @@ public interface DataOperator<T, K> {
     void writeToFile(
             @NotNull String filePath,
             @NotNull T data
-    ) throws JSONException;
+    ) throws JSONException, IrregularAccessException;
 
     // ============================= \\
     //        SQL OPERATIONS         \\
@@ -61,7 +62,7 @@ public interface DataOperator<T, K> {
             @NotNull K key,
             @NotNull String filePath,
             @NotNull DatabaseTableNames tableName
-    ) throws SQLException;
+    ) throws SQLException, IrregularAccessException;
 
     /**
      * Returns all data from the table in the database file.
@@ -77,7 +78,7 @@ public interface DataOperator<T, K> {
             @NotNull String filePath,
             @NotNull RowMapper<T> mapper,
             @NotNull String tableName
-    ) throws SQLException;
+    ) throws SQLException, IrregularAccessException;
 
     /**
      * Validates and, if valid, inserts data into the database file.
@@ -91,7 +92,7 @@ public interface DataOperator<T, K> {
             @NotNull T data,
             @NotNull String filePath,
             @NotNull DatabaseTableNames tableName
-    ) throws SQLException;
+    ) throws SQLException, IrregularAccessException;
 
     /**
      * Updates the data in the database file.
@@ -106,7 +107,7 @@ public interface DataOperator<T, K> {
             @NotNull K key,
             @NotNull String filePath,
             @NotNull DatabaseTableNames tableName
-    ) throws SQLException;
+    ) throws SQLException, IrregularAccessException;
 
     /**
      * Deletes the data from the database file.
@@ -121,5 +122,5 @@ public interface DataOperator<T, K> {
             @NotNull K key,
             @NotNull String filePath,
             @NotNull DatabaseTableNames tableName
-    ) throws SQLException;
+    ) throws SQLException, IrregularAccessException;
 }
