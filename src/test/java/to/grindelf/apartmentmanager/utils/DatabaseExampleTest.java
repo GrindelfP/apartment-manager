@@ -3,6 +3,7 @@ package to.grindelf.apartmentmanager.utils;
 import org.junit.jupiter.api.Test;
 import to.grindelf.apartmentmanager.domain.User;
 import to.grindelf.apartmentmanager.domain.UserStatus;
+import to.grindelf.apartmentmanager.utils.database.DatabaseExample;
 
 import java.util.Arrays;
 import java.util.List;

@@ -31,5 +31,9 @@ module to.grindelf.apartmentmanager {
     opens to.grindelf.apartmentmanager.domain to javafx.fxml, com.fasterxml.jackson.databind;
     exports to.grindelf.apartmentmanager.domain;
     opens to.grindelf.apartmentmanager.application to spring.beans, spring.context, spring.core;
+    exports to.grindelf.apartmentmanager.utils.database;
+    opens to.grindelf.apartmentmanager.utils.database to javafx.fxml;
+    exports to.grindelf.apartmentmanager.utils.json;
+    opens to.grindelf.apartmentmanager.utils.json to javafx.fxml;
 
 }
