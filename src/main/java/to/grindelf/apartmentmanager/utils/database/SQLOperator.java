@@ -21,8 +21,7 @@ import java.util.Map;
  */
 public class SQLOperator<T, K> implements DataOperator<T, K> {
 
-    public SQLOperator(Class<T> dataType) {
-    }
+    public SQLOperator() {}
 
     // ===================================================================== \\
     //                 HIGH-LEVEL SQL OPERATIONS WITH DATA                   \\
