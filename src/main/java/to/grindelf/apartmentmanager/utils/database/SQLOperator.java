@@ -15,12 +15,14 @@ import java.util.Map;
 
 /**
  * Class that handles SQL operations.
+ *
  * @param <T> type of the object to operate on.
  * @param <K> type of the object to use as a key to get other objects.
  */
 public class SQLOperator<T, K> implements DataOperator<T, K> {
 
-    public SQLOperator(Class<T> dataType) {  }
+    public SQLOperator(Class<T> dataType) {
+    }
 
     // ===================================================================== \\
     //                 HIGH-LEVEL SQL OPERATIONS WITH DATA                   \\
@@ -94,38 +96,68 @@ public class SQLOperator<T, K> implements DataOperator<T, K> {
 
     /**
      * Updates the data in the database file.
+     *
      * @param key           key to update the object by
+     * @param keyColumnName name of the column that is used as a key
      * @param filePath      path to the database file
      * @param tableName     name of the table to update data in
-     * @throws SQLException if an error occurs during the operation
+     * @throws SQLException             if an error occurs during the operation
+     * @throws IrregularAccessException if an error occurs during the operation
      */
     @Override
     @SQLPurposed
     public void update(
             @NotNull K key,
+            @NotNull String keyColumnName,
+            @NotNull T data,
             @NotNull String filePath,
             @NotNull DatabaseTableNames tableName
-    ) throws SQLException, IrregularAccessException { }
+    ) throws SQLException, IrregularAccessException {
+
+        String url = "jdbc:sqlite:" + filePath;
+
+        try (Connection conn = DriverManager.getConnection(url)) {
+            validateDataAgainstTableStructure(data, conn, tableName.toString());
+            updateQuery(key, keyColumnName, data, conn, tableName.toString());
+        } catch (SQLException | RuntimeException e) {
+            throw new RuntimeException("Failed updating the scheme!", e);
+        }
+    }
+
 
     /**
      * Deletes the data from the database file.
-     * @param key       key to delete the object by
-     * @param filePath  path to the database file
-     * @param tableName name of the table to delete data from
+     *
+     * @param key           key to delete the object by
+     * @param keyColumnName name of the column that is used as a key
+     * @param filePath      path to the database file
+     * @param tableName     name of the table to delete data from
      * @throws SQLException if an error occurs during the operation
      */
     @Override
     @SQLPurposed
     public void delete(
             @NotNull K key,
+            @NotNull String keyColumnName,
             @NotNull String filePath,
             @NotNull DatabaseTableNames tableName
-    ) throws SQLException, IrregularAccessException { }
+    ) throws SQLException, IrregularAccessException {
+        String url = "jdbc:sqlite:" + filePath;
+
+        try (Connection conn = DriverManager.getConnection(url)) {
+            String query = "DELETE FROM " + tableName + " WHERE " + keyColumnName + " = ?";
+            try (PreparedStatement stmt = conn.prepareStatement(query)) {
+                stmt.setObject(1, key);
+                stmt.executeUpdate();
+            }
+        }
+    }
 
     // =================================================================== \\
     //                 LOW-LEVEL SQL OPERATIONS WITH DATA                  \\
     // These are the helper-functions for the high-level operations above. \\
     // =================================================================== \\
+
     /**
      * Validates the data against the table structure.
      *
@@ -163,7 +195,6 @@ public class SQLOperator<T, K> implements DataOperator<T, K> {
             }
         }
     }
-
 
     /**
      * Inserts data into the database table
@@ -214,9 +245,58 @@ public class SQLOperator<T, K> implements DataOperator<T, K> {
         }
     }
 
+    private void updateQuery(
+            @NotNull K key,
+            @NotNull String keyColumnName,
+            @NotNull T data,
+            @NotNull Connection conn,
+            @NotNull String tableName
+    ) throws SQLException, RuntimeException {
+
+
+        Field[] fields = data.getClass().getDeclaredFields();
+        StringBuilder setClause = new StringBuilder();
+
+        for (Field field : fields) {
+            if (!field.getName().equals(keyColumnName)) {
+                setClause.append(field.getName()).append(" = ?,");
+            }
+        }
+
+        // Удаляем последнюю запятую
+        setClause.setLength(setClause.length() - 1);
+
+        String query = "UPDATE " + tableName + " SET " + setClause + " WHERE " + keyColumnName + " = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            int index = 1;
+
+            // Устанавливаем параметры для полей объекта
+            for (Field field : fields) {
+                if (!field.getName().equals(keyColumnName)) {
+                    field.setAccessible(true);
+                    Object value = field.get(data);
+
+                    // Обрабатываем Enum как строковые значения
+                    if (value instanceof Enum) {
+                        value = value.toString();
+                    }
+
+                    stmt.setObject(index++, value);
+                }
+            }
+
+            // Устанавливаем значение ключа
+            stmt.setObject(index, key);
+            stmt.executeUpdate();
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     // =================================================================================== \\
     // THE CODE BELLOW IS PURPOSED FOR JSON OPERATOR AND HERE ONLY TO AN INHERITANCE NEEDS \\
     // =================================================================================== \\
+
     /**
      * Returns the content of a file.
      *

@@ -100,11 +100,14 @@ public interface DataOperator<T, K> {
      * @param key       key to update the object by
      * @param filePath  path to the database file
      * @param tableName name of the table to update data in
-     * @throws SQLException if an error occurs during the operation
+     * @throws SQLException if an error occurs during the operation,
+     * @throws IrregularAccessException if the function is called from an implementation that is not supposed to call it
      */
     @SQLPurposed
     void update(
             @NotNull K key,
+            @NotNull String keyColumnName,
+            @NotNull T data,
             @NotNull String filePath,
             @NotNull DatabaseTableNames tableName
     ) throws SQLException, IrregularAccessException;
@@ -112,15 +115,16 @@ public interface DataOperator<T, K> {
     /**
      * Deletes the data from the database file.
      *
-     * @param key       key to delete the object by
-     * @param filePath  path to the database file
-     * @param tableName name of the table to delete data from
+     * @param key           key to delete the object by
+     * @param keyColumnName
+     * @param filePath      path to the database file
+     * @param tableName     name of the table to delete data from
      * @throws SQLException if an error occurs during the operation
      */
     @SQLPurposed
     void delete(
             @NotNull K key,
-            @NotNull String filePath,
+            @NotNull String keyColumnName, @NotNull String filePath,
             @NotNull DatabaseTableNames tableName
     ) throws SQLException, IrregularAccessException;
 }

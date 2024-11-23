@@ -129,6 +129,8 @@ public class JsonOperator<T, K> implements DataOperator<T, K> {
     @Override
     public void update(
             @NotNull K key,
+            @NotNull String keyColumnName,
+            @NotNull T data,
             @NotNull String filePath,
             @NotNull DatabaseTableNames tableName
     ) throws SQLException, IrregularAccessException {
@@ -138,15 +140,16 @@ public class JsonOperator<T, K> implements DataOperator<T, K> {
     /**
      * Deletes the data from the database file.
      *
-     * @param key       key to delete the object by
-     * @param filePath  path to the database file
-     * @param tableName name of the table to delete data from
+     * @param key           key to delete the object by
+     * @param keyColumnName
+     * @param filePath      path to the database file
+     * @param tableName     name of the table to delete data from
      * @throws SQLException if an error occurs during the operation
      */
     @Override
     public void delete(
             @NotNull K key,
-            @NotNull String filePath,
+            @NotNull String keyColumnName, @NotNull String filePath,
             @NotNull DatabaseTableNames tableName
     ) throws SQLException, IrregularAccessException {
         throw new IrregularAccessException(this.getClass().getName());
