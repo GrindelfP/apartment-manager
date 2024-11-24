@@ -32,10 +32,33 @@ public class SQLOperator<T, K> implements DataOperator<T, K> {
     @SQLPurposed
     public T getByKey(
             @NotNull K key,
+            @NotNull String keyColumnName,
             @NotNull String filePath,
-            @NotNull DatabaseTableNames tableName
+            @NotNull DatabaseTableNames tableName,
+            @NotNull RowMapper<T> mapper
     ) throws SQLException, IrregularAccessException {
-        return null;
+        String url = "jdbc:sqlite:" + filePath;
+        String query = "SELECT * FROM " + tableName + " WHERE " + keyColumnName + " = ?";
+
+        try (Connection conn = DriverManager.getConnection(url);
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setObject(1, key);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    T result = mapper.mapRow(rs);
+
+                    if (rs.next()) {
+                        throw new SQLException("Database inconsistency: multiple rows found for key " + key);
+                    }
+
+                    return result;
+                } else {
+                    throw new SQLException("No record found with key " + key);
+                }
+            }
+        }
     }
 
     /**

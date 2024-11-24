@@ -51,17 +51,21 @@ public interface DataOperator<T, K> {
     // ============================= \\
     /**
      * Returns the object by the provided key from the database file.
-     * @param key key to get the object by
-     * @param filePath path to the database file
-     * @param tableName name of the table to get data from
+     *
+     * @param key           key to get the object by
+     * @param keyColumnName
+     * @param filePath      path to the database file
+     * @param tableName     name of the table to get data from
      * @return returns the object by the provided key from the database file
      * @throws SQLException if an error occurs during the operation
      */
     @SQLPurposed
     T getByKey(
             @NotNull K key,
+            @NotNull String keyColumnName,
             @NotNull String filePath,
-            @NotNull DatabaseTableNames tableName
+            @NotNull DatabaseTableNames tableName,
+            @NotNull RowMapper<T> mapper
     ) throws SQLException, IrregularAccessException;
 
     /**
