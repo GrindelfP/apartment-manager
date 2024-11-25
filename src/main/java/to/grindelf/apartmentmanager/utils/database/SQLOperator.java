@@ -4,6 +4,8 @@ import org.jetbrains.annotations.NotNull;
 import to.grindelf.apartmentmanager.annonations.SQLPurposed;
 import to.grindelf.apartmentmanager.exceptions.IrregularAccessException;
 import to.grindelf.apartmentmanager.exceptions.JSONException;
+import to.grindelf.apartmentmanager.exceptions.NoSuchUserException;
+import to.grindelf.apartmentmanager.exceptions.UserAlreadyExistsException;
 import to.grindelf.apartmentmanager.utils.DataOperator;
 
 import java.lang.reflect.Field;
@@ -36,7 +38,7 @@ public class SQLOperator<T, K> implements DataOperator<T, K> {
             @NotNull String filePath,
             @NotNull DatabaseTableNames tableName,
             @NotNull RowMapper<T> mapper
-    ) throws SQLException, IrregularAccessException {
+    ) throws SQLException, IrregularAccessException, NoSuchUserException {
         String url = "jdbc:sqlite:" + filePath;
         String query = "SELECT * FROM " + tableName + " WHERE " + keyColumnName + " = ?";
 
@@ -55,7 +57,7 @@ public class SQLOperator<T, K> implements DataOperator<T, K> {
 
                     return result;
                 } else {
-                    throw new SQLException("No record found with key " + key);
+                    throw new NoSuchUserException();
                 }
             }
         }
@@ -107,12 +109,29 @@ public class SQLOperator<T, K> implements DataOperator<T, K> {
             @NotNull T data,
             @NotNull String filePath,
             @NotNull DatabaseTableNames tableName
-    ) throws SQLException, IrregularAccessException {
+    ) throws SQLException, IrregularAccessException, UserAlreadyExistsException {
         String url = "jdbc:sqlite:" + filePath;
 
         try (Connection conn = DriverManager.getConnection(url)) {
             validateDataAgainstTableStructure(data, conn, tableName.toString());
+
+            Field nameField = data.getClass().getDeclaredField("name");
+            nameField.setAccessible(true);
+            String nameValue = (String) nameField.get(data);
+
+            String checkQuery = "SELECT COUNT(*) FROM " + tableName + " WHERE name = ?";
+            try (PreparedStatement stmt = conn.prepareStatement(checkQuery)) {
+                stmt.setString(1, nameValue);
+                try (ResultSet rs = stmt.executeQuery()) {
+                    if (rs.next() && rs.getInt(1) > 0) {
+                        throw new UserAlreadyExistsException();
+                    }
+                }
+            }
+
             insertQuery(data, conn, tableName.toString());
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            throw new RuntimeException("Failed to access 'name' field in data object.", e);
         }
     }
 
@@ -134,17 +153,26 @@ public class SQLOperator<T, K> implements DataOperator<T, K> {
             @NotNull T data,
             @NotNull String filePath,
             @NotNull DatabaseTableNames tableName
-    ) throws SQLException, IrregularAccessException {
-
+    ) throws SQLException, IrregularAccessException, NoSuchUserException {
         String url = "jdbc:sqlite:" + filePath;
 
         try (Connection conn = DriverManager.getConnection(url)) {
+            // Проверка на существование записи
+            String checkQuery = "SELECT COUNT(*) FROM " + tableName + " WHERE " + keyColumnName + " = ?";
+            try (PreparedStatement checkStmt = conn.prepareStatement(checkQuery)) {
+                checkStmt.setObject(1, key);
+                try (ResultSet rs = checkStmt.executeQuery()) {
+                    if (!rs.next() || rs.getInt(1) == 0) {
+                        throw new NoSuchUserException();
+                    }
+                }
+            }
+
             validateDataAgainstTableStructure(data, conn, tableName.toString());
             updateQuery(key, keyColumnName, data, conn, tableName.toString());
-        } catch (SQLException | RuntimeException e) {
-            throw new RuntimeException("Failed updating the scheme!", e);
         }
     }
+
 
 
     /**
@@ -163,10 +191,21 @@ public class SQLOperator<T, K> implements DataOperator<T, K> {
             @NotNull String keyColumnName,
             @NotNull String filePath,
             @NotNull DatabaseTableNames tableName
-    ) throws SQLException, IrregularAccessException {
+    ) throws SQLException, IrregularAccessException, NoSuchUserException {
         String url = "jdbc:sqlite:" + filePath;
 
         try (Connection conn = DriverManager.getConnection(url)) {
+            // Проверка на существование записи
+            String checkQuery = "SELECT COUNT(*) FROM " + tableName + " WHERE " + keyColumnName + " = ?";
+            try (PreparedStatement checkStmt = conn.prepareStatement(checkQuery)) {
+                checkStmt.setObject(1, key);
+                try (ResultSet rs = checkStmt.executeQuery()) {
+                    if (!rs.next() || rs.getInt(1) == 0) {
+                        throw new NoSuchUserException();
+                    }
+                }
+            }
+
             String query = "DELETE FROM " + tableName + " WHERE " + keyColumnName + " = ?";
             try (PreparedStatement stmt = conn.prepareStatement(query)) {
                 stmt.setObject(1, key);
@@ -284,8 +323,6 @@ public class SQLOperator<T, K> implements DataOperator<T, K> {
                 setClause.append(field.getName()).append(" = ?,");
             }
         }
-
-        // Удаляем последнюю запятую
         setClause.setLength(setClause.length() - 1);
 
         String query = "UPDATE " + tableName + " SET " + setClause + " WHERE " + keyColumnName + " = ?";

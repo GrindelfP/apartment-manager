@@ -4,9 +4,10 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import to.grindelf.apartmentmanager.domain.User;
 import to.grindelf.apartmentmanager.domain.UserStatus;
+import to.grindelf.apartmentmanager.exceptions.NoSuchUserException;
+import to.grindelf.apartmentmanager.exceptions.UserAlreadyExistsException;
 
 import java.io.File;
-import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -20,18 +21,17 @@ class SQLOperatorTest {
     private final String PATH = "src/test/resources/test-db.db";
 
     @Test
-    void init() {
+    void initializeDatabase() {
 
         String testBaseUrl = "jdbc:sqlite:" + PATH;
 
         File dbFile = new File("users.db");
         if (!dbFile.exists()) {
             try {
-                // Создаем новый файл базы данных
                 dbFile.createNewFile();
-                System.out.println("Файл базы данных создан.");
+                System.out.println("DB file was just created");
             } catch (Exception e) {
-                System.out.println("Ошибка создания файла базы данных: " + e.getMessage());
+                System.out.println("Error creating DB file: " + e.getMessage());
             }
         }
 
@@ -44,16 +44,16 @@ class SQLOperatorTest {
              Statement stmt = conn.createStatement()) {
             stmt.execute(sql);
         } catch (SQLException e) {
-            System.out.println("Ошибка инициализации базы данных: " + e.getMessage());
+            System.out.println("Error DB initialisation: " + e.getMessage());
         }
     }
 
     @Test
     @Order(1)
-    void insert() throws SQLException {
+    void givenUser_thenPostedToDB() throws SQLException, UserAlreadyExistsException {
         SQLOperator<User, String> operator = new SQLOperator<>();
 
-        User user = new User("Shisha", "456", UserStatus.JUST_USER);
+        User user = new User("dad", "4sadhk3", UserStatus.JUST_USER);
 
         operator.post(
                 user,
@@ -64,12 +64,24 @@ class SQLOperatorTest {
 
     @Test
     @Order(2)
-    void update() throws SQLException { // not working
+    void givenExistentUser_whenPostedToDB_thenUserAlreadyExistsExceptionThrown() throws SQLException {
         SQLOperator<User, String> operator = new SQLOperator<>();
 
-        User userUpdate = new User("Ira_My_Ira", "789", UserStatus.JUST_USER);
-        Class<?> clazz = userUpdate.getClass();
-        Field[] fields = clazz.getFields();
+        User user = new User("Ira", "srusrtjhsrtjhs", UserStatus.JUST_USER);
+
+        assertThrows(UserAlreadyExistsException.class, () -> operator.post(
+                user,
+                PATH,
+                DatabaseTableNames.USERS_TABLE
+        ));
+    }
+
+    @Test
+    @Order(3)
+    void givenUpdateUserData_thenUserUpdated() throws SQLException, NoSuchUserException {
+        SQLOperator<User, String> operator = new SQLOperator<>();
+
+        User userUpdate = new User("Ira", "qwerty", UserStatus.ADMIN);
 
         operator.update(
                 "Ira",
@@ -81,12 +93,29 @@ class SQLOperatorTest {
     }
 
     @Test
-    @Order(3)
-    void delete() throws SQLException { // works but not tells if no such user
+    @Order(4)
+    void givenUpdateNonExistentUserData_whenUserUpdated_thenNoSuchUserExceptionIsThrown() throws SQLException {
+        SQLOperator<User, String> operator = new SQLOperator<>();
+
+        User userUpdate = new User("ksj", "-", UserStatus.JUST_USER);
+
+
+        assertThrows(NoSuchUserException.class, () -> operator.update(
+                "no-such-user",
+                "name",
+                userUpdate,
+                PATH,
+                DatabaseTableNames.USERS_TABLE
+        ));
+    }
+
+    @Test
+    @Order(5)
+    void userDeleted() throws SQLException, NoSuchUserException { // works but not tells if no such user
         SQLOperator<User, String> operator = new SQLOperator<>();
 
         operator.delete(
-                "asdasdasdasd",
+                "Ira",
                 "name",
                 PATH,
                 DatabaseTableNames.USERS_TABLE
@@ -94,8 +123,22 @@ class SQLOperatorTest {
     }
 
     @Test
-    @Order(4)
-    void readAll() throws SQLException { // works
+    @Order(6)
+    void nonExistingUserNotDeleted() throws SQLException, NoSuchUserException { // works but not tells if no such user
+        SQLOperator<User, String> operator = new SQLOperator<>();
+
+
+        assertThrows(NoSuchUserException.class, () -> operator.delete(
+                "no-such-user",
+                "name",
+                PATH,
+                DatabaseTableNames.USERS_TABLE
+        ));
+    }
+
+    @Test
+    @Order(7)
+    void readAllFromDB() throws SQLException { // works
         SQLOperator<User, String> operator = new SQLOperator<>();
 
         List<User> users = operator.getAll(
@@ -112,12 +155,12 @@ class SQLOperatorTest {
     }
 
     @Test
-    @Order(5)
-    void getByKey() throws SQLException {
+    @Order(8)
+    void givenKey_thenGetUserByKey() throws SQLException, NoSuchUserException {
         SQLOperator<User, String> operator = new SQLOperator<>();
 
         User user = operator.getByKey(
-                "Shisha",
+                "dad",
                 "name",
                 PATH,
                 DatabaseTableNames.USERS_TABLE,
@@ -128,18 +171,16 @@ class SQLOperatorTest {
     }
 
     @Test
-    @Order(5)
-    void getByKeyWithNoSuchRecord() throws SQLException {
+    @Order(9)
+    void givenWrongKey_whenGetByKey_thenCatchSQLException() {
         SQLOperator<User, String> operator = new SQLOperator<>();
 
-        assertThrows(SQLException.class, () -> {
-            operator.getByKey(
-                    "no-such-user",
-                    "name",
-                    PATH,
-                    DatabaseTableNames.USERS_TABLE,
-                    new DatabaseDaoUtils().userMapper
-            );
-        });
+        assertThrows(NoSuchUserException.class, () -> operator.getByKey(
+                "no-such-user",
+                "name",
+                PATH,
+                DatabaseTableNames.USERS_TABLE,
+                new DatabaseDaoUtils().userMapper
+        ));
     }
 }

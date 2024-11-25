@@ -6,6 +6,8 @@ import org.jetbrains.annotations.NotNull;
 import to.grindelf.apartmentmanager.annonations.JSONPurposed;
 import to.grindelf.apartmentmanager.exceptions.IrregularAccessException;
 import to.grindelf.apartmentmanager.exceptions.JSONException;
+import to.grindelf.apartmentmanager.exceptions.NoSuchUserException;
+import to.grindelf.apartmentmanager.exceptions.UserAlreadyExistsException;
 import to.grindelf.apartmentmanager.utils.DataOperator;
 import to.grindelf.apartmentmanager.utils.database.DatabaseTableNames;
 import to.grindelf.apartmentmanager.utils.database.RowMapper;
@@ -84,7 +86,7 @@ public class JsonOperator<T, K> implements DataOperator<T, K> {
             @NotNull String filePath,
             @NotNull DatabaseTableNames tableName,
             @NotNull RowMapper<T> mapper
-    ) throws SQLException, IrregularAccessException {
+    ) throws SQLException, IrregularAccessException, NoSuchUserException {
         throw new IrregularAccessException(this.getClass().getName());
     }
 
@@ -117,7 +119,7 @@ public class JsonOperator<T, K> implements DataOperator<T, K> {
             @NotNull T data,
             @NotNull String filePath,
             @NotNull DatabaseTableNames tableName
-    ) throws SQLException, IrregularAccessException {
+    ) throws SQLException, IrregularAccessException, UserAlreadyExistsException {
         throw new IrregularAccessException(this.getClass().getName());
     }
 
@@ -136,7 +138,7 @@ public class JsonOperator<T, K> implements DataOperator<T, K> {
             @NotNull T data,
             @NotNull String filePath,
             @NotNull DatabaseTableNames tableName
-    ) throws SQLException, IrregularAccessException {
+    ) throws SQLException, IrregularAccessException, NoSuchUserException {
         throw new IrregularAccessException(this.getClass().getName());
     }
 
@@ -154,7 +156,7 @@ public class JsonOperator<T, K> implements DataOperator<T, K> {
             @NotNull K key,
             @NotNull String keyColumnName, @NotNull String filePath,
             @NotNull DatabaseTableNames tableName
-    ) throws SQLException, IrregularAccessException {
+    ) throws SQLException, IrregularAccessException, NoSuchUserException {
         throw new IrregularAccessException(this.getClass().getName());
     }
 }
