@@ -12,9 +12,9 @@ import java.util.Objects;
 public class UserDaoImpl implements UserDao<User> {
 
     private final String USER_FILE_PATH = "src/main/resources/users.json";
-    private final DataOperator<List<User>> operator;
+    private final DataOperator<List<User>, String> operator;
 
-    public UserDaoImpl(DataOperator<List<User>> operator) {
+    public UserDaoImpl(DataOperator<List<User>, String> operator) {
         this.operator = operator;
     }
 

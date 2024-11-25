@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import to.grindelf.apartmentmanager.domain.UserStatus;
 import to.grindelf.apartmentmanager.domain.User;
+import to.grindelf.apartmentmanager.exceptions.JSONException;
+import to.grindelf.apartmentmanager.utils.json.JsonOperator;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -47,10 +49,14 @@ class JsonOperatorTest {
     @Order(1)
     void givenOneUserData_whenWrittenToFile_thenTextInFileIsCorrect() {
 
-        DataOperator<User> jsonOperator = new JsonOperator<>(new TypeReference<>() {
+        DataOperator<User, String> jsonOperator = new JsonOperator<>(new TypeReference<>() {
         });
 
-        jsonOperator.writeToFile(PATH_FOR_ONE, testUser);
+        try {
+            jsonOperator.writeToFile(PATH_FOR_ONE, testUser);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         try {
             String realUserAsText = Files.readString(Path.of(PATH_FOR_ONE));
@@ -63,7 +69,7 @@ class JsonOperatorTest {
     @Test
     @Order(2)
     void givenUserDataInFile_whenRead_thenEqualToCorrectData() {
-        DataOperator<User> jsonOperator = new JsonOperator<>(new TypeReference<>() {
+        DataOperator<User, String> jsonOperator = new JsonOperator<>(new TypeReference<>() {
         });
 
         User userFromFile = jsonOperator.readFile(PATH_FOR_ONE);
@@ -74,10 +80,14 @@ class JsonOperatorTest {
     @Test
     @Order(3)
     void givenUsersData_whenWrittenToFile_thenTextInFileIsCorrect() {
-        DataOperator<List<User>> jsonOperator = new JsonOperator<>(new TypeReference<>() {
+        DataOperator<List<User>, String> jsonOperator = new JsonOperator<>(new TypeReference<>() {
         });
 
-        jsonOperator.writeToFile(PATH_FOR_MANY, testUsers);
+        try {
+            jsonOperator.writeToFile(PATH_FOR_MANY, testUsers);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         try {
             String realUserAsText = Files.readString(Path.of(PATH_FOR_MANY));
@@ -90,7 +100,7 @@ class JsonOperatorTest {
     @Test
     @Order(4)
     void givenUsersDataInFile_whenRead_thenEqualToCorrectData() {
-        DataOperator<List<User>> jsonOperator = new JsonOperator<>(new TypeReference<>() {
+        DataOperator<List<User>, String> jsonOperator = new JsonOperator<>(new TypeReference<>() {
         });
 
         List<User> userFromFile = jsonOperator.readFile(PATH_FOR_MANY);
