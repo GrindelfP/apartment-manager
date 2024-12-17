@@ -40,8 +40,10 @@ public class LoginController {
         try {
             User storedUser = userDao.getUserByName(userName);
 
-            if (storedUser.equals(loginUser)) {
+            if (storedUser.equals(loginUser) && storedUser.isJustUser()) {
                 openGeneralView();
+            } else if (storedUser.equals(loginUser) && storedUser.isAdmin()) {
+                openAdminView();
             }
 
         } catch (NoSuchUserException e) {
@@ -50,6 +52,28 @@ public class LoginController {
             throw new RuntimeException(e);
         }
 
+    }
+
+    private void openAdminView() throws IOException {
+        Stage stage = (Stage) loginButton.getScene().getWindow();
+        stage.close();
+
+        URL fxmlSignUpLocation = getClass().getResource(
+                ADMIN_VIEW_PATH
+        );
+        if (fxmlSignUpLocation == null) {
+            System.err.println(FXML_NO_FOUND_ERROR_MESSAGE); return;
+        }
+        FXMLLoader loader = new FXMLLoader(fxmlSignUpLocation);
+
+        Parent root = loader.load();
+        Stage newStage = new Stage();
+
+        newStage.setTitle(ADMIN_WINDOW_TITLE);
+        newStage.setScene(new Scene(root));
+        newStage.setWidth(WINDOW_WIDTH);
+        newStage.setHeight(WINDOW_HEIGHT);
+        newStage.show();
     }
 
     private void openGeneralView() throws IOException {

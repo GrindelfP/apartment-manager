@@ -33,6 +33,6 @@
 
     <!-- Switch to log in button -->
     <Text GridPane.columnIndex="0" GridPane.rowIndex="4" GridPane.columnSpan="2">Already have an account?</Text>
-    <Hyperlink text="Log In" fx:id="loginSwitch" onAction="#switchToLogin" GridPane.columnIndex="3" GridPane.rowIndex="4"/>
+    <Hyperlink text="Log In" fx:id="loginSwitch" onAction="#switchToLogin" GridPane.columnIndex="3" GridPane.rowIndex="5"/>
 
 </GridPane>

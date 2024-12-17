@@ -89,4 +89,12 @@ public final class User {
     public int hashCode() {
         return Objects.hashCode(name);
     }
+
+    public boolean isAdmin() {
+        return this.getStatus() == UserStatus.ADMIN;
+    }
+
+    public boolean isJustUser() {
+        return this.getStatus() == UserStatus.JUST_USER;
+    }
 }

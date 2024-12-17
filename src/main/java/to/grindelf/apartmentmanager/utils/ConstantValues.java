@@ -14,11 +14,13 @@ public class ConstantValues {
     public final static String LOGIN_WINDOW_TITLE = "Log in";
     public final static String SIGNUP_WINDOW_TITLE = "Sign up";
     public final static String GENERAL_WINDOW_TITLE = "Apartment manager";
+    public final static String ADMIN_WINDOW_TITLE = "Apartment manager (ADMIN)";
     public final static String SUCCESS_ALERT_TITLE = "Success!";
 
     public final static String SIGNUP_VIEW_PATH = "/to/grindelf/apartmentmanager/application/desktop/signup-view.fxml";
     public final static String LOGIN_VIEW_PATH = "/to/grindelf/apartmentmanager/application/desktop/login-view.fxml";
     public final static String GENERAL_VIEW_PATH = "/to/grindelf/apartmentmanager/application/desktop/general-view.fxml";
+    public final static String ADMIN_VIEW_PATH = "/to/grindelf/apartmentmanager/application/desktop/admin-view.fxml";
 
     public final static String FXML_NO_FOUND_ERROR_MESSAGE = "FXML file not found!";
     public final static String LOGIN_ERROR_MESSAGE = "Either your login or password is wrong. Try again!";
