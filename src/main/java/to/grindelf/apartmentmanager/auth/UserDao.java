@@ -10,7 +10,7 @@ import java.util.List;
 public interface UserDao<T> {
 
     T getUserByName(@NotNull String userName) throws NoSuchUserException, SQLException;
-    List<T> getAll();
+    List<T> getAll() throws SQLException;
     void save(@NotNull T user) throws UserAlreadyExistsException;
     void update(@NotNull T user) throws NoSuchUserException;
     void delete(@NotNull String userName) throws NoSuchUserException;

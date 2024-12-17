@@ -77,7 +77,7 @@ public class SQLOperator<T, K> implements DataOperator<T, K> {
     public @NotNull List<T> getAll(
             @NotNull String filePath,
             @NotNull RowMapper<T> mapper,
-            @NotNull String tableName
+            @NotNull DatabaseTableNames tableName
     ) throws SQLException, IrregularAccessException {
 
         List<T> result = new ArrayList<>();

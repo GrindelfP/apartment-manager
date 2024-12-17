@@ -83,7 +83,7 @@ public interface DataOperator<T, K> {
     List<T> getAll(
             @NotNull String filePath,
             @NotNull RowMapper<T> mapper,
-            @NotNull String tableName
+            @NotNull DatabaseTableNames tableName
     ) throws SQLException, IrregularAccessException;
 
     /**

@@ -6,13 +6,11 @@ import to.grindelf.apartmentmanager.exceptions.NoSuchUserException;
 import to.grindelf.apartmentmanager.exceptions.UserAlreadyExistsException;
 import to.grindelf.apartmentmanager.utils.DataOperator;
 import to.grindelf.apartmentmanager.utils.database.DatabaseDaoUtils;
-import to.grindelf.apartmentmanager.utils.database.RowMapper;
 import to.grindelf.apartmentmanager.utils.database.SQLOperator;
 import to.grindelf.apartmentmanager.utils.json.JsonOperator;
-import to.grindelf.apartmentmanager.utils.ConstantValues.DatabaseTableNames;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -72,6 +70,31 @@ public class UserDaoImpl implements UserDao<User> {
 
     @Override
     public List<User> getAll() {
+
+        List<User> users = new ArrayList<>();
+
+        if (this.operator instanceof SQLOperator<User, String>) {
+            users = sqlGetAll();
+        } else if (this.operator instanceof JsonOperator<User, String>) {
+            users = jsonGetAll();
+        }
+
+        return users;
+    }
+
+    private @NotNull List<User> sqlGetAll() {
+        try {
+            return this.operator.getAll(
+                    USER_DB_FILE_PATH,
+                    new DatabaseDaoUtils().userMapper,
+                    DatabaseTableNames.USERS_TABLE
+            );
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private List<User> jsonGetAll() {
         return this.operator.readFile(USER_JSON_FILE_PATH);
     }
 
@@ -112,6 +135,28 @@ public class UserDaoImpl implements UserDao<User> {
     @Override
     public void update(@NotNull User user) throws NoSuchUserException {
 
+        if (this.operator instanceof SQLOperator<User, String>) {
+            sqlUpdate(user);
+        } else if (this.operator instanceof JsonOperator<User, String>) {
+            jsonUpdate(user);
+        }
+    }
+
+    private void sqlUpdate(@NotNull User user) throws NoSuchUserException {
+        try {
+            this.operator.update(
+                    user.getName(),
+                    USERS_COLUMN_KEY_COLUMN_NAME,
+                    user,
+                    USER_DB_FILE_PATH,
+                    DatabaseTableNames.USERS_TABLE
+            );
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void jsonUpdate(@NotNull User user) throws NoSuchUserException {
         List<User> userList = this.operator.readFile(USER_JSON_FILE_PATH);
 
         if (!checkIfUserExists(user.getName(), userList)) {
@@ -131,6 +176,14 @@ public class UserDaoImpl implements UserDao<User> {
     @Override
     public void delete(@NotNull String userName) throws NoSuchUserException {
 
+        if (this.operator instanceof SQLOperator<User, String>) {
+            sqlDelete(userName);
+        } else if (this.operator instanceof JsonOperator<User, String>) {
+            jsonDelete(userName);
+        }
+    }
+
+    private void jsonDelete(@NotNull String userName) throws NoSuchUserException {
         List<User> userList = this.operator.readFile(USER_JSON_FILE_PATH);
 
         if (!checkIfUserExists(userName, userList)) {
@@ -145,6 +198,19 @@ public class UserDaoImpl implements UserDao<User> {
         }
 
         this.operator.writeToFile(USER_JSON_FILE_PATH, userList);
+    }
+
+    private void sqlDelete(@NotNull String userName) throws NoSuchUserException {
+        try {
+            this.operator.delete(
+                    userName,
+                    USERS_COLUMN_KEY_COLUMN_NAME,
+                    USER_DB_FILE_PATH,
+                    DatabaseTableNames.USERS_TABLE
+            );
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private boolean checkIfUserExists(@NotNull String userName, @NotNull List<User> userList) {

@@ -146,7 +146,7 @@ class SQLOperatorTest {
         List<User> users = operator.getAll(
                 PATH,
                 new DatabaseDaoUtils().userMapper,
-                "users"
+                DatabaseTableNames.USERS_TABLE
         );
 
         System.out.println(users.size());
