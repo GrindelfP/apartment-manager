@@ -1,4 +1,4 @@
-package to.grindelf.apartmentmanager.application;
+package to.grindelf.apartmentmanager;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

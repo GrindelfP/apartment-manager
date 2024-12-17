@@ -28,8 +28,9 @@ public class SignupController {
     public PasswordField confirmPasswordField;
     @FXML
     public Button registerButton;
-
+    @FXML
     public Hyperlink loginSwitch;
+    @FXML
     public Label errorMessage;
 
     @FXML

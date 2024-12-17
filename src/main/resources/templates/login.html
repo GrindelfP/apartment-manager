@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Log In</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<h1>Log In</h1>
+<form action="/auth/login" method="post">
+    <label for="name">Username:</label>
+    <input type="text" id="name" name="name" required><br><br>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required><br><br>
+    <button type="submit">Log In</button>
+</form>
+<p th:text="${message}"></p>
+<p th:text="${error}"></p>
+</body>
+</html>

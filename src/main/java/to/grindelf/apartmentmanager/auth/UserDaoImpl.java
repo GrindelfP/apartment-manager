@@ -1,6 +1,7 @@
 package to.grindelf.apartmentmanager.auth;
 
 import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Component;
 import to.grindelf.apartmentmanager.domain.User;
 import to.grindelf.apartmentmanager.exceptions.NoSuchUserException;
 import to.grindelf.apartmentmanager.exceptions.UserAlreadyExistsException;
@@ -16,9 +17,14 @@ import java.util.Objects;
 
 import static to.grindelf.apartmentmanager.utils.ConstantValues.*;
 
+@Component
 public class UserDaoImpl implements UserDao<User> {
 
     private final DataOperator<User, String> operator;
+
+    public UserDaoImpl() {
+        this.operator = new SQLOperator<>();
+    }
 
     public UserDaoImpl(DataOperator<User, String> operator) {
         this.operator = operator;

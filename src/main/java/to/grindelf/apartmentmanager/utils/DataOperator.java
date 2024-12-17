@@ -1,6 +1,7 @@
 package to.grindelf.apartmentmanager.utils;
 
 import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Component;
 import to.grindelf.apartmentmanager.annonations.JSONPurposed;
 import to.grindelf.apartmentmanager.annonations.SQLPurposed;
 import to.grindelf.apartmentmanager.exceptions.IrregularAccessException;
@@ -20,6 +21,7 @@ import java.util.List;
  * @param <T> type of the object to operate on.
  * @param <K> type of the object to use as a key to get other objects.
  */
+@Component
 public interface DataOperator<T, K> {
 
     // ============================= \\
