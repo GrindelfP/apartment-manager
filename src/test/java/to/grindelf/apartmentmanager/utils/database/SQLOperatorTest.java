@@ -7,6 +7,8 @@ import to.grindelf.apartmentmanager.domain.UserStatus;
 import to.grindelf.apartmentmanager.exceptions.NoSuchUserException;
 import to.grindelf.apartmentmanager.exceptions.UserAlreadyExistsException;
 
+import to.grindelf.apartmentmanager.utils.ConstantValues.DatabaseTableNames;
+
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;

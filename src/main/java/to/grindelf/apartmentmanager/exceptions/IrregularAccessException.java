@@ -11,6 +11,6 @@ public class IrregularAccessException extends RuntimeException {
      * @param currentImplementation String with the name of the current implementation.
      */
     public IrregularAccessException(String currentImplementation) {
-        super("This function is not callable from" + currentImplementation + "implementation");
+        super("This function is not callable from " + currentImplementation + " implementation!");
     }
 }

@@ -7,7 +7,7 @@ import to.grindelf.apartmentmanager.exceptions.IrregularAccessException;
 import to.grindelf.apartmentmanager.exceptions.JSONException;
 import to.grindelf.apartmentmanager.exceptions.NoSuchUserException;
 import to.grindelf.apartmentmanager.exceptions.UserAlreadyExistsException;
-import to.grindelf.apartmentmanager.utils.database.DatabaseTableNames;
+import to.grindelf.apartmentmanager.utils.ConstantValues.DatabaseTableNames;
 import to.grindelf.apartmentmanager.utils.database.RowMapper;
 
 import java.sql.SQLException;
@@ -33,7 +33,7 @@ public interface DataOperator<T, K> {
      * @throws JSONException if an error occurs during the operation
      */
     @JSONPurposed
-    T readFile(@NotNull String filePath) throws JSONException, IrregularAccessException;
+    List<T> readFile(@NotNull String filePath) throws JSONException, IrregularAccessException;
 
     /**
      * Overwrites content of the provided file with new content
@@ -45,7 +45,7 @@ public interface DataOperator<T, K> {
     @JSONPurposed
     void writeToFile(
             @NotNull String filePath,
-            @NotNull T data
+            @NotNull List<T> data
     ) throws JSONException, IrregularAccessException;
 
     // ============================= \\

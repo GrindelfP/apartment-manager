@@ -9,7 +9,7 @@ import to.grindelf.apartmentmanager.exceptions.JSONException;
 import to.grindelf.apartmentmanager.exceptions.NoSuchUserException;
 import to.grindelf.apartmentmanager.exceptions.UserAlreadyExistsException;
 import to.grindelf.apartmentmanager.utils.DataOperator;
-import to.grindelf.apartmentmanager.utils.database.DatabaseTableNames;
+import to.grindelf.apartmentmanager.utils.ConstantValues.DatabaseTableNames;
 import to.grindelf.apartmentmanager.utils.database.RowMapper;
 
 import java.io.File;
@@ -20,14 +20,14 @@ import java.util.List;
 public class JsonOperator<T, K> implements DataOperator<T, K> {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
-    private final TypeReference<T> typeReference;
+    private final TypeReference<List<T>> typeReference;
 
     /**
      * Constructor that initializes the type reference.
      *
      * @param typeReference type reference to initialize with
      */
-    public JsonOperator(TypeReference<T> typeReference) {
+    public JsonOperator(TypeReference<List<T>> typeReference) {
         this.typeReference = typeReference;
     }
 
@@ -39,7 +39,7 @@ public class JsonOperator<T, K> implements DataOperator<T, K> {
      * @throws JSONException if an error occurs during the operation
      */
     @Override
-    public T readFile(@NotNull String filePath) throws JSONException, IrregularAccessException {
+    public List<T> readFile(@NotNull String filePath) throws JSONException, IrregularAccessException {
         try {
             return objectMapper.readValue(new File(filePath), typeReference);
         } catch (IOException e) {
@@ -56,7 +56,7 @@ public class JsonOperator<T, K> implements DataOperator<T, K> {
      */
     @Override
     @JSONPurposed
-    public void writeToFile(@NotNull String filePath, @NotNull T data) throws JSONException, IrregularAccessException {
+    public void writeToFile(@NotNull String filePath, @NotNull List<T> data) throws JSONException, IrregularAccessException {
         try {
             objectMapper.writeValue(new File(filePath), data);
         } catch (IOException e) {

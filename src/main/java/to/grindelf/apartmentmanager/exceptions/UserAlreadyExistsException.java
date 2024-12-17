@@ -3,7 +3,7 @@ package to.grindelf.apartmentmanager.exceptions;
 public class UserAlreadyExistsException extends Exception {
 
     public UserAlreadyExistsException() {
-        System.err.println("User already exists");
+        super("This user already exists! Try another user name.");
     }
 
 }

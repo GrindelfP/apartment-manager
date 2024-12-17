@@ -5,18 +5,20 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import org.jetbrains.annotations.NotNull;
 
-public class ApartmentManagerJavaFX extends Application {
+import static to.grindelf.apartmentmanager.utils.ConstantValues.*;
 
-    // TODO: Make transition from Login view to Signup view
+public class ApartmentManagerJavaFX extends Application {
 
     @Override
     public void start(javafx.stage.@NotNull Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(
-                "/to/grindelf/apartmentmanager/application/desktop/signup-view.fxml"
+                LOGIN_VIEW_PATH
         )
         );
-        primaryStage.setTitle("Apartment Manager");
+        primaryStage.setTitle(LOGIN_WINDOW_TITLE);
         primaryStage.setScene(new Scene(loader.load()));
+        primaryStage.setWidth(WINDOW_WIDTH);
+        primaryStage.setHeight(WINDOW_HEIGHT);
         primaryStage.show();
 
     }

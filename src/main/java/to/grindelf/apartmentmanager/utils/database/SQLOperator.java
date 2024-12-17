@@ -6,6 +6,7 @@ import to.grindelf.apartmentmanager.exceptions.IrregularAccessException;
 import to.grindelf.apartmentmanager.exceptions.JSONException;
 import to.grindelf.apartmentmanager.exceptions.NoSuchUserException;
 import to.grindelf.apartmentmanager.exceptions.UserAlreadyExistsException;
+import to.grindelf.apartmentmanager.utils.ConstantValues.DatabaseTableNames;
 import to.grindelf.apartmentmanager.utils.DataOperator;
 
 import java.lang.reflect.Field;
@@ -364,7 +365,7 @@ public class SQLOperator<T, K> implements DataOperator<T, K> {
      * @throws JSONException if an error occurs during the operation
      */
     @Override
-    public T readFile(@NotNull String filePath) throws JSONException, IrregularAccessException {
+    public List<T> readFile(@NotNull String filePath) throws JSONException, IrregularAccessException {
         throw new IrregularAccessException(this.getClass().getName());
     }
 
@@ -376,7 +377,7 @@ public class SQLOperator<T, K> implements DataOperator<T, K> {
      * @throws JSONException if an error occurs during the operation
      */
     @Override
-    public void writeToFile(@NotNull String filePath, @NotNull T data) throws JSONException, IrregularAccessException {
+    public void writeToFile(@NotNull String filePath, @NotNull List<T> data) throws JSONException, IrregularAccessException {
         throw new IrregularAccessException(this.getClass().getName());
     }
 }
