@@ -8,6 +8,7 @@ import to.grindelf.apartmentmanager.exceptions.NoSuchUserException;
 import to.grindelf.apartmentmanager.exceptions.UserAlreadyExistsException;
 
 import to.grindelf.apartmentmanager.utils.ConstantValues.DatabaseTableNames;
+import to.grindelf.apartmentmanager.utils.ConstantValues;
 
 import java.io.File;
 import java.sql.Connection;
@@ -17,6 +18,7 @@ import java.sql.Statement;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static to.grindelf.apartmentmanager.utils.ConstantValues.USERS_COLUMN_KEY_COLUMN_NAME;
 
 class SQLOperatorTest {
 
@@ -61,6 +63,7 @@ class SQLOperatorTest {
                 user,
                 PATH,
                 DatabaseTableNames.USERS_TABLE,
+                USERS_COLUMN_KEY_COLUMN_NAME
         );
     }
 
@@ -75,6 +78,7 @@ class SQLOperatorTest {
                 user,
                 PATH,
                 DatabaseTableNames.USERS_TABLE,
+                USERS_COLUMN_KEY_COLUMN_NAME
         ));
     }
 
