@@ -41,6 +41,8 @@ public class SignupController {
 
         if (!Objects.equals(password, confirmPassword)) {
             errorMessage.setText(SIGNUP_PASSWD_CONF_ERROR_MESSAGE);
+        } else if (userName.isEmpty() || password.isEmpty()) {
+            errorMessage.setText(SIGNUP_EMPTY_FIELDS_ERROR_MESSAGE);
         } else {
             User signUpUser = new User(userName, password);
             SQLOperator<User, String> operator = new SQLOperator<>();

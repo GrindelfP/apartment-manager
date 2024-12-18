@@ -14,29 +14,28 @@ import java.net.URL;
 
 import static to.grindelf.apartmentmanager.utils.ConstantValues.*;
 
-public class GeneralController {
+public class BookingsAdminController {
     @FXML
     public Text text;
     @FXML
-    public Button logOut;
+    public Button goBackButton;
 
-    public void handleLogOut(ActionEvent actionEvent) throws IOException {
-        Stage stage = (Stage) logOut.getScene().getWindow();
+    public void goBack(ActionEvent actionEvent) throws IOException {
+        Stage stage = (Stage) goBackButton.getScene().getWindow();
         stage.close();
 
-        URL fxmlLogInLocation = getClass().getResource(
-                LOGIN_VIEW_PATH
+        URL fxmlSignUpLocation = getClass().getResource(
+                ADMIN_VIEW_PATH
         );
-        if (fxmlLogInLocation == null) {
-            System.err.println(FXML_NO_FOUND_ERROR_MESSAGE);
-            return;
+        if (fxmlSignUpLocation == null) {
+            System.err.println(FXML_NO_FOUND_ERROR_MESSAGE); return;
         }
-        FXMLLoader loader = new FXMLLoader(fxmlLogInLocation);
+        FXMLLoader loader = new FXMLLoader(fxmlSignUpLocation);
 
         Parent root = loader.load();
         Stage newStage = new Stage();
 
-        newStage.setTitle(LOGIN_WINDOW_TITLE);
+        newStage.setTitle(ADMIN_WINDOW_TITLE);
         newStage.setScene(new Scene(root));
         newStage.setWidth(WINDOW_WIDTH);
         newStage.setHeight(WINDOW_HEIGHT);

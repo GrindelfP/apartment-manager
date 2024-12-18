@@ -25,7 +25,7 @@
     <PasswordField fx:id="confirmPasswordField" promptText="Confirm password" GridPane.columnIndex="1"
                    GridPane.rowIndex="2"/>
 
-    <Label fx:id="errorMessage" textFill="red" GridPane.columnIndex="0" GridPane.rowIndex="4" GridPane.columnSpan="2" />
+    <Label fx:id="errorMessage" textFill="red" GridPane.columnIndex="0" GridPane.rowIndex="6" GridPane.columnSpan="2" />
 
     <!-- Register Button -->
     <Button text="Register" fx:id="registerButton" GridPane.columnIndex="1" GridPane.rowIndex="3"

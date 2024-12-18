@@ -40,7 +40,10 @@ public class LoginController {
         try {
             User storedUser = userDao.getUserByName(userName);
 
-            if (storedUser.equals(loginUser) && storedUser.isJustUser()) {
+            if (usernameField.getText().isEmpty() || passwordField.getText().isEmpty()) {
+                errorMessage.setText(LOGIN_EMPTY_FIELDS_ERROR_MESSAGE);
+
+            }else if (storedUser.equals(loginUser) && storedUser.isJustUser()) {
                 openGeneralView();
             } else if (storedUser.equals(loginUser) && storedUser.isAdmin()) {
                 openAdminView();

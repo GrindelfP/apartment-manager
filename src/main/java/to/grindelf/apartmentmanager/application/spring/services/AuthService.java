@@ -15,7 +15,7 @@ public class AuthService {
 
     // Method for user registration
     public void signUp(User user) throws UserAlreadyExistsException {
-        userDao.save(user);  // Use UserDao's save method to register the user
+        userDao.save(user);  // Use BookingsDao's save method to register the user
     }
 
     // Method for user login

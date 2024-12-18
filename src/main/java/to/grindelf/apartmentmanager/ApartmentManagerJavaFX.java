@@ -12,7 +12,7 @@ public class ApartmentManagerJavaFX extends Application {
     @Override
     public void start(javafx.stage.@NotNull Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(
-                LOGIN_VIEW_PATH
+                USERS_ADMIN_VIEW_PATH
         )
         );
         primaryStage.setTitle(LOGIN_WINDOW_TITLE);

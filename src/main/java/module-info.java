@@ -14,11 +14,9 @@ module to.grindelf.apartmentmanager {
     requires com.fasterxml.jackson.databind;
     requires java.sql;
     requires org.apache.tomcat.embed.core;
-    // requires spring.security.config;
 
-    exports to.grindelf.apartmentmanager.exceptions to javafx.base, spring.core;
+    exports to.grindelf.apartmentmanager.exceptions to javafx.base;
 
-    opens to.grindelf.apartmentmanager.application.spring to spring.core, spring.beans, spring.context;
     opens to.grindelf.apartmentmanager.application.desktop.controllers to javafx.fxml;
     exports to.grindelf.apartmentmanager.application.desktop.controllers;
 
@@ -32,21 +30,12 @@ module to.grindelf.apartmentmanager {
     opens to.grindelf.apartmentmanager.utils.database to javafx.fxml;
     exports to.grindelf.apartmentmanager.utils.json;
     opens to.grindelf.apartmentmanager.utils.json to javafx.fxml;
-    opens to.grindelf.apartmentmanager to spring.beans, spring.context, spring.core;
-    exports to.grindelf.apartmentmanager to javafx.graphics, spring.core;
+    exports to.grindelf.apartmentmanager to javafx.graphics;
 
-    exports to.grindelf.apartmentmanager.application.spring;
-
-
-    opens to.grindelf.apartmentmanager.auth to spring.core, spring.beans, spring.web, spring.boot, spring.context;
-    exports to.grindelf.apartmentmanager.auth;
-    opens to.grindelf.apartmentmanager.application.spring.services to spring.core, spring.beans, spring.web, spring.boot, spring.context;
-    exports to.grindelf.apartmentmanager.application.spring.services;
-    opens to.grindelf.apartmentmanager.application.spring.controllers to spring.core, spring.beans, spring.web, spring.boot, spring.context;
-    exports to.grindelf.apartmentmanager.application.spring.controllers;
-
-
-
+//    opens to.grindelf.apartmentmanager to spring.beans;
+//    opens to.grindelf.apartmentmanager.auth to spring.beans;
+//    opens to.grindelf.apartmentmanager.application.spring.controllers to spring.beans, spring.web;
+//    opens to.grindelf.apartmentmanager.application.spring.services to spring.beans, spring.core;
 }
 
 

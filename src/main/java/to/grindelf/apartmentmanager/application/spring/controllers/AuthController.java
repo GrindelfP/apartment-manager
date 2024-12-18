@@ -8,7 +8,7 @@
 //import org.springframework.web.bind.annotation.RequestParam;
 //import org.springframework.web.bind.annotation.RestController;
 //import to.grindelf.apartmentmanager.application.spring.services.AuthService;
-//import to.grindelf.apartmentmanager.auth.UserDaoImpl;
+//import to.grindelf.apartmentmanager.auth.BookingsDaoImpl;
 //import to.grindelf.apartmentmanager.domain.User;
 //import to.grindelf.apartmentmanager.exceptions.NoSuchUserException;
 //import to.grindelf.apartmentmanager.exceptions.UserAlreadyExistsException;
@@ -17,7 +17,7 @@
 //@Controller
 //public class AuthController {
 //
-//    private final UserDaoImpl dao = new UserDaoImpl(new SQLOperator<>());
+//    private final BookingsDaoImpl dao = new BookingsDaoImpl(new SQLOperator<>());
 //
 //    @GetMapping("/login")
 //    public String showLoginPage() {
@@ -32,7 +32,7 @@
 //    ) {
 //        User loginUser = new User(name, password);
 //        try {
-//            User realUser = dao.getUserByName(name);
+//            User realUser = dao.getBookingById(name);
 //            if (realUser.equals(loginUser) && realUser.isAdmin()) {
 //                model.addAttribute("message", "Welcome, Admin!");
 //                return "welcome"; // шаблон для админа
