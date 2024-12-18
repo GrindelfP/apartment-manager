@@ -1,5 +1,6 @@
 package to.grindelf.apartmentmanager.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -90,10 +91,12 @@ public final class User {
         return Objects.hashCode(name);
     }
 
+    @JsonIgnore
     public boolean isAdmin() {
         return this.getStatus() == UserStatus.ADMIN;
     }
 
+    @JsonIgnore
     public boolean isJustUser() {
         return this.getStatus() == UserStatus.JUST_USER;
     }
