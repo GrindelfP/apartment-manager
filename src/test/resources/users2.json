@@ -1,1 +1,1 @@
-[{"name":"jon_doe","password":"123","status":"ADMIN"},{"name":"jane_doe","password":"no passwd","status":"JUST_USER"},{"name":"jack_sparrow","password":"123","status":"JUST_USER"}]
+[{"name":"jon_doe","password":"123","status":"ADMIN","admin":true,"justUser":false},{"name":"jane_doe","password":"no passwd","status":"JUST_USER","admin":false,"justUser":true},{"name":"jack_sparrow","password":"123","status":"JUST_USER","admin":false,"justUser":true}]

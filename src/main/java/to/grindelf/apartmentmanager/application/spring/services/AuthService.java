@@ -13,20 +13,17 @@ public class AuthService {
     @Autowired
     private UserDao<User> userDao;
 
-    // Sign-up functionality
-    public void signUp(String name, String password) throws UserAlreadyExistsException {
-        User user = new User(name, password);
-        userDao.save(user); // Save the user into the database
+    // Method for user registration
+    public void signUp(User user) throws UserAlreadyExistsException {
+        userDao.save(user);  // Use UserDao's save method to register the user
     }
 
-    // Log-in functionality
-    public User logIn(String name, String password) throws NoSuchUserException {
-        User user = userDao.getUserByName(name);
-        User loginUser = new User(name, password);
-        if (loginUser.equals(user)) {
-            return user; // Return the user if password matches
-        } else {
-            throw new NoSuchUserException();
+    // Method for user login
+    public void login(User user) throws NoSuchUserException {
+        User existingUser = userDao.getUserByName(user.getName());
+        // Check if the password matches
+        if (existingUser == null || !existingUser.getPassword().equals(user.getPassword())) {
+            throw new NoSuchUserException(); // If not, throw exception
         }
     }
 }
