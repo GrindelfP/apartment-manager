@@ -169,8 +169,8 @@ public class UsersAdminController {
 
             UserDaoImpl userDao = new UserDaoImpl();
             try {
-                userDao.update(selectedUserForEdit); // Обновляем в базе данных
-                usersTable.refresh(); // Обновляем таблицу
+                userDao.update(selectedUserForEdit);
+                usersTable.refresh();
             } catch (NoSuchUserException e) {
                 errorMessage.setText("User not found: " + name);
             }

@@ -60,7 +60,7 @@ class SQLOperatorTest {
         operator.post(
                 user,
                 PATH,
-                DatabaseTableNames.USERS_TABLE
+                DatabaseTableNames.USERS_TABLE,
         );
     }
 
@@ -74,7 +74,7 @@ class SQLOperatorTest {
         assertThrows(UserAlreadyExistsException.class, () -> operator.post(
                 user,
                 PATH,
-                DatabaseTableNames.USERS_TABLE
+                DatabaseTableNames.USERS_TABLE,
         ));
     }
 

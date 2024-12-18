@@ -12,13 +12,11 @@
         <Insets top="20" right="20" bottom="20" left="20"/>
     </padding>
 
-    <Text GridPane.columnIndex="0" fx:id="text" GridPane.rowIndex="4" GridPane.columnSpan="2">
-        You are logged in as ADMIN! Congrats!
-    </Text>
-
     <Button text="Users control panel" fx:id="usersButton" onAction="#handleUsers" GridPane.columnIndex="0" GridPane.rowIndex="3" />
 
     <Button text="Bookings control panel" fx:id="bookingsButton" onAction="#handleBookings" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+    <Button text="Rooms control panel" fx:id="roomsButton" onAction="#handleRooms" GridPane.columnIndex="2" GridPane.rowIndex="3" />
 
     <Button text="Log out" fx:id="logOut" onAction="#handleLogOut" GridPane.columnIndex="1" GridPane.rowIndex="5" />
 

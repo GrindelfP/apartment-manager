@@ -91,16 +91,17 @@ public interface DataOperator<T, K> {
     /**
      * Validates and, if valid, inserts data into the database file.
      *
-     * @param data      object to insert
-     * @param filePath  path to the database file
-     * @param tableName name of the table to insert data into
+     * @param data          object to insert
+     * @param filePath      path to the database file
+     * @param tableName     name of the table to insert data into
+     * @param keyColumnName
      */
     @SQLPurposed
     void post(
             @NotNull T data,
             @NotNull String filePath,
-            @NotNull DatabaseTableNames tableName
-    ) throws SQLException, IrregularAccessException, UserAlreadyExistsException;
+            @NotNull DatabaseTableNames tableName,
+            @NotNull String keyColumnName) throws SQLException, IrregularAccessException, UserAlreadyExistsException;
 
     /**
      * Updates the data in the database file.

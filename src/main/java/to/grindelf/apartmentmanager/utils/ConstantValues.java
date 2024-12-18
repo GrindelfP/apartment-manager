@@ -17,6 +17,7 @@ public class ConstantValues {
     public final static String ADMIN_WINDOW_TITLE = "Apartment manager (ADMIN)";
     public final static String USERS_ADMIN_WINDOW_TITLE = "Apartment manager: Users control (ADMIN)";
     public final static String BOOKINGS_ADMIN_WINDOW_TITLE = "Apartment manager: Bookings control (ADMIN)";
+    public final static String ROOMS_ADMIN_WINDOW_TITLE = "Apartment manager: Rooms control (ADMIN)";
     public final static String SUCCESS_ALERT_TITLE = "Success!";
 
     public final static String SIGNUP_VIEW_PATH = "/to/grindelf/apartmentmanager/application/desktop/signup-view.fxml";
@@ -25,6 +26,7 @@ public class ConstantValues {
     public final static String ADMIN_VIEW_PATH = "/to/grindelf/apartmentmanager/application/desktop/admin-view.fxml";
     public final static String USERS_ADMIN_VIEW_PATH = "/to/grindelf/apartmentmanager/application/desktop/users-admin-view.fxml";
     public final static String BOOKINGS_ADMIN_VIEW_PATH = "/to/grindelf/apartmentmanager/application/desktop/bookings-admin-view.fxml";
+    public final static String ROOMS_ADMIN_VIEW_PATH = "/to/grindelf/apartmentmanager/application/desktop/rooms-view.fxml";
 
     public final static String FXML_NO_FOUND_ERROR_MESSAGE = "FXML file not found!";
     public final static String LOGIN_ERROR_MESSAGE = "Either your login or password is wrong. Try again!";

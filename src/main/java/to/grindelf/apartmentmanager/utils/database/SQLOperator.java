@@ -100,29 +100,31 @@ public class SQLOperator<T, K> implements DataOperator<T, K> {
     /**
      * Validates and, if valid, inserts data into the database file.
      *
-     * @param data      object to insert
-     * @param filePath  path to the database file
-     * @param tableName name of the table to insert data into
+     * @param data          object to insert
+     * @param filePath      path to the database file
+     * @param tableName     name of the table to insert data into
+     * @param keyColumnName
      */
     @Override
     @SQLPurposed
     public void post(
             @NotNull T data,
             @NotNull String filePath,
-            @NotNull DatabaseTableNames tableName
+            @NotNull DatabaseTableNames tableName,
+            @NotNull String keyColumnName
     ) throws SQLException, IrregularAccessException, UserAlreadyExistsException {
         String url = "jdbc:sqlite:" + filePath;
 
         try (Connection conn = DriverManager.getConnection(url)) {
             validateDataAgainstTableStructure(data, conn, tableName.toString());
 
-            Field nameField = data.getClass().getDeclaredField("name");
+            Field nameField = data.getClass().getDeclaredField(keyColumnName);
             nameField.setAccessible(true);
-            String nameValue = (String) nameField.get(data);
+            K nameValue = (K) nameField.get(data);
 
-            String checkQuery = "SELECT COUNT(*) FROM " + tableName + " WHERE name = ?";
+            String checkQuery = "SELECT COUNT(*) FROM " + tableName + " WHERE " + keyColumnName + " = ?";
             try (PreparedStatement stmt = conn.prepareStatement(checkQuery)) {
-                stmt.setString(1, nameValue);
+                stmt.setString(1, nameValue.toString());
                 try (ResultSet rs = stmt.executeQuery()) {
                     if (rs.next() && rs.getInt(1) > 0) {
                         throw new UserAlreadyExistsException();
@@ -132,7 +134,7 @@ public class SQLOperator<T, K> implements DataOperator<T, K> {
 
             insertQuery(data, conn, tableName.toString());
         } catch (NoSuchFieldException | IllegalAccessException e) {
-            throw new RuntimeException("Failed to access 'name' field in data object.", e);
+            throw new RuntimeException("Failed to access " + keyColumnName + " field in data object.", e);
         }
     }
 

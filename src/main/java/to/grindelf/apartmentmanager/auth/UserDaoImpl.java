@@ -131,7 +131,8 @@ public class UserDaoImpl implements UserDao<User> {
             this.operator.post(
                     user,
                     USER_DB_FILE_PATH,
-                    DatabaseTableNames.USERS_TABLE
+                    DatabaseTableNames.USERS_TABLE,
+                    USERS_COLUMN_KEY_COLUMN_NAME
             );
         } catch (SQLException e) {
             throw new RuntimeException(e);

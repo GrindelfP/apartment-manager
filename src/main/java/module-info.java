@@ -14,6 +14,7 @@ module to.grindelf.apartmentmanager {
     requires com.fasterxml.jackson.databind;
     requires java.sql;
     requires org.apache.tomcat.embed.core;
+    requires jdk.jshell;
 
     exports to.grindelf.apartmentmanager.exceptions to javafx.base;
 

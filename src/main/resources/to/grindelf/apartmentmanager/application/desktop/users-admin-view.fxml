@@ -24,7 +24,7 @@
     <Button text="-" fx:id="deleteButton" onAction="#deleteUser" GridPane.columnIndex="2" GridPane.rowIndex="3"/>
 
 
-    <TableView fx:id="usersTable" layoutX="20.0" layoutY="60.0" prefHeight="320.0" prefWidth="560.0">
+    <TableView fx:id="usersTable" layoutX="20.0" layoutY="60.0" prefHeight="320.0" prefWidth="560.0" GridPane.columnSpan="3">
         <columns>
             <TableColumn fx:id="userName" text="Name" editable="true" />
             <TableColumn fx:id="password" text="Password" editable="true" />

@@ -23,6 +23,8 @@ public class AdminController {
     public Button bookingsButton;
     @FXML
     public Button logOut;
+    @FXML
+    public Button roomsButton;
 
     public void handleUsers(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) usersButton.getScene().getWindow();
@@ -84,7 +86,30 @@ public class AdminController {
         Parent root = loader.load();
         Stage newStage = new Stage();
 
-        newStage.setTitle(LOGIN_WINDOW_TITLE);
+        newStage.setTitle(USERS_ADMIN_WINDOW_TITLE);
+        newStage.setScene(new Scene(root));
+        newStage.setWidth(WINDOW_WIDTH);
+        newStage.setHeight(WINDOW_HEIGHT);
+        newStage.show();
+    }
+
+    public void handleRooms(ActionEvent actionEvent) throws IOException {
+        Stage stage = (Stage) roomsButton.getScene().getWindow();
+        stage.close();
+
+        URL fxmlLogInLocation = getClass().getResource(
+                ROOMS_ADMIN_VIEW_PATH
+        );
+        if (fxmlLogInLocation == null) {
+            System.err.println(FXML_NO_FOUND_ERROR_MESSAGE);
+            return;
+        }
+        FXMLLoader loader = new FXMLLoader(fxmlLogInLocation);
+
+        Parent root = loader.load();
+        Stage newStage = new Stage();
+
+        newStage.setTitle(ROOMS_ADMIN_WINDOW_TITLE);
         newStage.setScene(new Scene(root));
         newStage.setWidth(WINDOW_WIDTH);
         newStage.setHeight(WINDOW_HEIGHT);
